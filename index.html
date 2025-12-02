@@ -2,15 +2,15 @@
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>맞춤 인강 수준 진단 & 추천</title>
+    <title>맞춤 인강 추천 & 수준 진단</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
     <div class="container">
       <header>
-        <h1>맞춤 인강 수준 진단 & 추천</h1>
+        <h1>맞춤 인강 추천 & 수준 진단</h1>
         <p>
-          국어 · 영어 · 수학 수준(상/중/하)과 공부하려는 분야를 고르면
+          국어 · 영어 · 수학 분야와 수준(상/중/하)을 고르면
           <strong>EBS / 메가스터디 / 이투스</strong> 강의를 자동으로 추천해 줍니다.
         </p>
       </header>
@@ -32,6 +32,18 @@
           <button class="subject-btn" data-subject="kor">국어</button>
           <button class="subject-btn" data-subject="eng">영어</button>
           <button class="subject-btn" data-subject="math">수학</button>
+        </div>
+
+        <!-- 새로 추가: 내 수준 테스트하기 -->
+        <div class="test-box">
+          <p>내 실력이 어느 정도인지 잘 모르겠다면?</p>
+          <button id="btn-go-test" class="btn btn-primary btn-test-cta">
+            내 수준 테스트하기
+          </button>
+          <p class="test-box-help">
+            국어/영어/수학 중 선택해서 수능 스타일 상·중·하 난이도 문제 6개를 풀고
+            현재 실력을 가볍게 점검해 볼 수 있습니다.
+          </p>
         </div>
       </section>
 
@@ -76,7 +88,7 @@
         </div>
       </section>
 
-      <!-- 결과 화면 -->
+      <!-- 결과 화면: 강의 추천 -->
       <section id="view-result" class="card">
         <h2>추천 결과</h2>
         <p id="level-text"></p>
@@ -101,6 +113,57 @@
             다른 과목 / 다른 분야 선택하기
           </button>
           <button type="button" id="btn-result-home" class="btn btn-secondary">
+            처음으로
+          </button>
+        </div>
+      </section>
+
+      <!-- 새로 추가: 내 수준 테스트 화면 -->
+      <section id="view-quiz" class="card">
+        <h2>내 수준 테스트</h2>
+        <p class="desc">
+          국어/영어/수학 중 하나를 선택하면 수능 스타일 상·중·하 난이도의 문제 6개가
+          랜덤으로 출제됩니다. 결과는 <b>상/중/하 수준</b>으로 안내해 드립니다.
+        </p>
+
+        <div class="subject-grid quiz-subject-grid">
+          <button class="subject-btn" data-test-subject="kor">국어 테스트</button>
+          <button class="subject-btn" data-test-subject="eng">영어 테스트</button>
+          <button class="subject-btn" data-test-subject="math">수학 테스트</button>
+        </div>
+
+        <div id="quiz-wrap" style="margin-top:18px; display:none;">
+          <h3 id="quiz-title" class="sub-title"></h3>
+          <form id="quiz-form"></form>
+          <div class="btn-row">
+            <button type="button" id="btn-submit-test" class="btn btn-primary">
+              채점하기
+            </button>
+            <button type="button" id="btn-test-home" class="btn btn-secondary">
+              처음으로
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 새로 추가: 내 수준 테스트 결과 -->
+      <section id="view-test-result" class="card">
+        <h2>내 수준 테스트 결과</h2>
+        <p id="test-result-text"></p>
+        <p class="desc small">
+          이 결과를 참고해서 메인 화면에서 상/중/하를 선택하고, 공부할 분야를 고르면
+          맞춤 강의를 추천해 줍니다.
+        </p>
+
+        <div class="btn-row btn-row-bottom">
+          <button
+            type="button"
+            id="btn-test-to-select"
+            class="btn btn-primary"
+          >
+            과목/분야 선택하러 가기
+          </button>
+          <button type="button" id="btn-test-to-home" class="btn btn-secondary">
             처음으로
           </button>
         </div>

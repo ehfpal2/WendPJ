@@ -1,3 +1,26 @@
+:root {
+  /* 컬러 팔레트 */
+  --bg-body: #fdf7f5;          /* 전체 배경 – 아주 연한 베이지 */
+  --bg-card: #fff8f9;          /* 카드 – 핑크빛 베이지 */
+  --bg-card-strong: #fbeeed;   /* 강조 카드 */
+
+  --pink-soft: #f7c7d9;        /* 베이비핑크 기본 */
+  --pink-strong: #e79abf;      /* 버튼 등 진한 핑크 */
+  --pink-deep: #c96f91;        /* 호버/포커스용 딥핑크 */
+
+  --beige-soft: #f3e3d5;       /* 부드러운 베이지 */
+  --beige-chip: #f1e1cf;       /* 칩/태그용 베이지 */
+
+  --text-main: #4a3b3f;        /* 메인 텍스트 – 브라운 톤 */
+  --text-sub: #7a6462;         /* 서브 텍스트 */
+  --text-mute: #a58b87;        /* 힌트 텍스트 */
+
+  --border-soft: #edd8d4;      /* 부드러운 테두리 */
+  --shadow-soft: 0 10px 25px rgba(179, 132, 141, 0.15);
+}
+
+/* 기본 레이아웃 */
+
 * {
   box-sizing: border-box;
 }
@@ -6,47 +29,58 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
     sans-serif;
   margin: 0;
-  background: #f5f6fa;
-  color: #222;
+  background: radial-gradient(circle at top left, #ffeef6 0, #fdf7f5 45%, #f8efe6 100%);
+  color: var(--text-main);
 }
 
 .container {
   max-width: 960px;
   margin: 0 auto;
-  padding: 20px 16px 40px;
+  padding: 24px 16px 48px;
 }
+
+/* 헤더 */
 
 header {
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  padding: 10px 8px 14px;
 }
 
 header h1 {
   margin: 12px 0 6px;
   font-size: 1.8rem;
+  letter-spacing: 0.03em;
+  color: var(--text-main);
 }
 
 header p {
   margin: 0;
-  color: #555;
-  font-size: 0.95rem;
+  color: var(--text-sub);
+  font-size: 0.93rem;
 }
 
+/* 카드 공통 */
+
 .card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  margin-bottom: 18px;
+  background: var(--bg-card);
+  border-radius: 18px;
+  padding: 22px 20px 20px;
+  box-shadow: var(--shadow-soft);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(6px);
+  margin-bottom: 20px;
 }
 
 /* 설명 문구 */
+
 .desc {
-  font-size: 0.92rem;
-  color: #666;
+  font-size: 0.93rem;
+  color: var(--text-sub);
 }
 
-/* 홈 화면 */
+/* 홈 화면 – 과목 선택 */
+
 #view-home {
   display: none;
 }
@@ -54,74 +88,117 @@ header p {
 .subject-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 12px;
-  margin-top: 12px;
+  gap: 14px;
+  margin-top: 16px;
 }
+
+/* 고급스러운 과목 버튼 */
 
 .subject-btn {
   border: none;
-  border-radius: 10px;
-  padding: 14px 16px;
+  border-radius: 16px;
+  padding: 16px 18px;
   font-size: 1rem;
   cursor: pointer;
-  background: #3498db;
-  color: #fff;
   font-weight: 600;
-  box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
-  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
-    background 0.12s;
-  width: 100%;
+  color: var(--text-main);
+  background: linear-gradient(135deg, #ffe4ef 0%, #f8d9c9 50%, #f7e6da 100%);
+  box-shadow: 0 6px 15px rgba(207, 149, 168, 0.35);
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out,
+    filter 0.1s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   text-align: center;
 }
+
 .subject-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.5);
-  background: #217dbb;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(190, 125, 146, 0.45);
+  filter: brightness(1.03);
+}
+
+.subject-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(190, 125, 146, 0.3);
+}
+
+/* 내 수준 테스트 박스 */
+
+.test-box {
+  margin-top: 20px;
+  padding: 14px 16px 12px;
+  border-radius: 16px;
+  background: rgba(255, 228, 239, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.btn-test-cta {
+  margin-top: 6px;
+}
+
+.test-box-help {
+  margin: 6px 0 0;
+  font-size: 0.86rem;
+  color: var(--text-mute);
 }
 
 /* 선택 화면 */
+
 #view-select {
   display: none;
 }
 
 .sub-title {
-  margin: 8px 0 6px;
+  margin: 10px 0 8px;
   font-size: 1rem;
   font-weight: 600;
+  color: var(--text-main);
 }
 
 .select-row {
-  margin-top: 12px;
-  margin-bottom: 12px;
+  margin-top: 14px;
+  margin-bottom: 10px;
 }
 
-/* 수준 선택 */
+/* 수준 선택 칩 */
+
 .level-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .level-option {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 8px 12px;
+  gap: 6px;
+  padding: 9px 14px;
   border-radius: 999px;
-  background: #ecf0f1;
+  background: var(--beige-chip);
+  border: 1px solid rgba(255, 255, 255, 0.9);
   cursor: pointer;
   font-size: 0.92rem;
+  color: var(--text-main);
+  transition: background 0.12s ease-out, box-shadow 0.12s ease-out,
+    transform 0.08s ease-out;
 }
 
 .level-option input {
+  accent-color: var(--pink-strong);
   margin: 0;
 }
 
+.level-option:hover {
+  background: #f5d8c7;
+  box-shadow: 0 4px 10px rgba(209, 160, 132, 0.3);
+  transform: translateY(-1px);
+}
+
 /* 분야 선택 */
+
 .hint {
   margin: 4px 0 6px;
   font-size: 0.85rem;
-  color: #888;
+  color: var(--text-mute);
 }
 
 .category-grid {
@@ -131,69 +208,99 @@ header p {
 }
 
 .category-btn {
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 8px 15px;
   font-size: 0.9rem;
   cursor: pointer;
-  background: #f0f3f5;
-  color: #333;
-  transition: background 0.08s ease-out, transform 0.08s ease-out,
-    box-shadow 0.08s ease-out;
+  background: #f8ece4;
+  color: var(--text-main);
+  transition: background 0.12s ease-out, transform 0.08s ease-out,
+    box-shadow 0.12s ease-out, color 0.12s ease-out;
+}
+
+.category-btn:hover {
+  background: #f4dfd1;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(187, 145, 118, 0.35);
 }
 
 .category-btn.selected {
-  background: #9b59b6;
-  color: #fff;
-  box-shadow: 0 2px 6px rgba(155, 89, 182, 0.4);
+  background: linear-gradient(135deg, #f7c7d9, #e9a9c7);
+  color: #ffffff;
+  box-shadow: 0 8px 18px rgba(204, 120, 157, 0.5);
   transform: translateY(-1px);
 }
 
 /* 버튼 공통 */
+
 .btn-row {
-  margin-top: 18px;
+  margin-top: 22px;
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
 }
 
 .btn-row-bottom {
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .btn {
   border-radius: 999px;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border: none;
   cursor: pointer;
   font-size: 0.95rem;
   font-weight: 600;
 }
 
+/* 메인 액션 버튼 – 로즈/핑크 그라데이션 */
+
 .btn-primary {
-  background: #2ecc71;
+  background: linear-gradient(135deg, #f1a3c1, #e182a8);
   color: #fff;
-  box-shadow: 0 2px 6px rgba(46, 204, 113, 0.4);
-}
-.btn-primary:hover {
-  background: #27ae60;
+  box-shadow: 0 8px 18px rgba(201, 112, 147, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.02em;
 }
 
+.btn-primary:hover {
+  background: linear-gradient(135deg, #e989b0, #d36b93);
+  box-shadow: 0 10px 22px rgba(183, 95, 131, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 12px rgba(183, 95, 131, 0.45);
+}
+
+/* 보조 버튼 – 베이지 톤 */
+
 .btn-secondary {
-  background: #ecf0f1;
-  color: #333;
+  background: #f6ebe0;
+  color: var(--text-main);
+  border: 1px solid var(--border-soft);
+}
+
+.btn-secondary:hover {
+  background: #f0dfd1;
 }
 
 /* 결과 화면 */
+
 #view-result {
   display: none;
 }
 
 #level-text {
-  font-size: 1.05rem;
+  font-size: 1.02rem;
   font-weight: 600;
   margin-bottom: 14px;
+  color: var(--text-main);
 }
+
+/* 배지들 – 수준 / 분야 */
 
 .badge-level {
   display: inline-block;
@@ -201,8 +308,8 @@ header p {
   border-radius: 999px;
   font-size: 0.8rem;
   margin-left: 4px;
-  background: #3498db;
-  color: #fff;
+  background: #f7c7d9;
+  color: #744252;
   vertical-align: middle;
 }
 
@@ -212,33 +319,37 @@ header p {
   border-radius: 999px;
   font-size: 0.8rem;
   margin-left: 4px;
-  background: #9b59b6;
-  color: #fff;
+  background: #f0d7bd;
+  color: #6f4e3d;
   vertical-align: middle;
 }
 
 .teacher-section-title {
-  margin: 16px 0 8px;
+  margin: 18px 0 8px;
   font-size: 1rem;
+  color: var(--text-main);
 }
+
+/* 추천 강의 카드 */
 
 .teacher-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .teacher-card {
-  border-radius: 10px;
-  padding: 10px 12px;
-  background: #fafafa;
-  border: 1px solid #e1e4ea;
+  border-radius: 14px;
+  padding: 11px 14px;
+  background: var(--bg-card-strong);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 5px 14px rgba(198, 142, 142, 0.25);
 }
 
 .teacher-card .platform {
   font-size: 0.8rem;
   font-weight: 700;
-  color: #555;
+  color: var(--text-sub);
   margin-bottom: 2px;
 }
 
@@ -246,46 +357,118 @@ header p {
   font-size: 0.95rem;
   font-weight: 600;
   margin-bottom: 2px;
+  color: var(--text-main);
 }
 
 .teacher-card .meta {
   font-size: 0.82rem;
-  color: #777;
-  margin-bottom: 4px;
+  color: var(--text-mute);
+  margin-bottom: 5px;
 }
 
 .teacher-card a {
-  font-size: 0.85rem;
+  font-size: 0.86rem;
   text-decoration: none;
-  color: #2980b9;
+  color: #b85a86;
   font-weight: 600;
 }
+
 .teacher-card a:hover {
   text-decoration: underline;
 }
 
+/* 데이터 없을 때 */
+
 .empty-text {
   font-size: 0.9rem;
-  color: #888;
+  color: var(--text-mute);
 }
 
-/* 로딩 표시 (실제론 import 사용해서 거의 안 보임) */
+/* 내 수준 테스트 뷰들 */
+
+#view-quiz,
+#view-test-result {
+  display: none;
+}
+
+/* 퀴즈용 과목 선택 그리드 */
+
+.quiz-subject-grid {
+  margin-top: 10px;
+}
+
+/* 퀴즈 문항 스타일 */
+
+.question {
+  margin-top: 14px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff9f9;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+}
+
+.question p {
+  margin: 0 0 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: pre-line;
+}
+
+.choices label {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.choices input[type="radio"] {
+  margin-top: 2px;
+  accent-color: var(--pink-strong);
+}
+
+/* 작은 설명 텍스트 */
+
+.desc.small {
+  font-size: 0.87rem;
+}
+
+/* 로딩 표시 */
+
 #loading-bar {
   display: none;
   text-align: center;
   font-size: 0.88rem;
-  color: #666;
+  color: var(--text-mute);
   margin-bottom: 10px;
 }
+
 #loading-bar span {
   display: inline-block;
   padding: 4px 12px;
   border-radius: 999px;
-  background: rgba(0, 0, 0, 0.04);
+  background: rgba(255, 255, 255, 0.8);
 }
+
+/* 반응형 */
 
 @media (max-width: 600px) {
   header h1 {
-    font-size: 1.4rem;
+    font-size: 1.45rem;
+  }
+
+  .card {
+    padding: 18px 16px 18px;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-row {
+    flex-direction: column;
   }
 }
