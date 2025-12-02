@@ -1,0 +1,291 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  margin: 0;
+  background: #f5f6fa;
+  color: #222;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+header h1 {
+  margin: 12px 0 6px;
+  font-size: 1.8rem;
+}
+
+header p {
+  margin: 0;
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  margin-bottom: 18px;
+}
+
+/* 설명 문구 */
+.desc {
+  font-size: 0.92rem;
+  color: #666;
+}
+
+/* 홈 화면 */
+#view-home {
+  display: none;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.subject-btn {
+  border: none;
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #3498db;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(52, 152, 219, 0.4);
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out,
+    background 0.12s;
+  width: 100%;
+  text-align: center;
+}
+.subject-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(52, 152, 219, 0.5);
+  background: #217dbb;
+}
+
+/* 선택 화면 */
+#view-select {
+  display: none;
+}
+
+.sub-title {
+  margin: 8px 0 6px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.select-row {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+/* 수준 선택 */
+.level-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.level-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #ecf0f1;
+  cursor: pointer;
+  font-size: 0.92rem;
+}
+
+.level-option input {
+  margin: 0;
+}
+
+/* 분야 선택 */
+.hint {
+  margin: 4px 0 6px;
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.category-btn {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background: #f0f3f5;
+  color: #333;
+  transition: background 0.08s ease-out, transform 0.08s ease-out,
+    box-shadow 0.08s ease-out;
+}
+
+.category-btn.selected {
+  background: #9b59b6;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(155, 89, 182, 0.4);
+  transform: translateY(-1px);
+}
+
+/* 버튼 공통 */
+.btn-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-row-bottom {
+  margin-top: 20px;
+}
+
+.btn {
+  border-radius: 999px;
+  padding: 10px 18px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background: #2ecc71;
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(46, 204, 113, 0.4);
+}
+.btn-primary:hover {
+  background: #27ae60;
+}
+
+.btn-secondary {
+  background: #ecf0f1;
+  color: #333;
+}
+
+/* 결과 화면 */
+#view-result {
+  display: none;
+}
+
+#level-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.badge-level {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  background: #3498db;
+  color: #fff;
+  vertical-align: middle;
+}
+
+.badge-category {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  margin-left: 4px;
+  background: #9b59b6;
+  color: #fff;
+  vertical-align: middle;
+}
+
+.teacher-section-title {
+  margin: 16px 0 8px;
+  font-size: 1rem;
+}
+
+.teacher-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.teacher-card {
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fafafa;
+  border: 1px solid #e1e4ea;
+}
+
+.teacher-card .platform {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 2px;
+}
+
+.teacher-card .name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.teacher-card .meta {
+  font-size: 0.82rem;
+  color: #777;
+  margin-bottom: 4px;
+}
+
+.teacher-card a {
+  font-size: 0.85rem;
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: 600;
+}
+.teacher-card a:hover {
+  text-decoration: underline;
+}
+
+.empty-text {
+  font-size: 0.9rem;
+  color: #888;
+}
+
+/* 로딩 표시 (실제론 import 사용해서 거의 안 보임) */
+#loading-bar {
+  display: none;
+  text-align: center;
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+#loading-bar span {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.4rem;
+  }
+}

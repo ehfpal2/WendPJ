@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>맞춤 인강 수준 진단 & 추천</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>맞춤 인강 수준 진단 & 추천</h1>
+        <p>
+          국어 · 영어 · 수학 수준(상/중/하)과 공부하려는 분야를 고르면
+          <strong>EBS / 메가스터디 / 이투스</strong> 강의를 자동으로 추천해 줍니다.
+        </p>
+      </header>
+
+      <div id="loading-bar">
+        <span>강의 데이터(lecture_db.json)를 준비 중입니다...</span>
+      </div>
+
+      <!-- 홈: 과목 선택 -->
+      <section id="view-home" class="card">
+        <h2>과목 선택</h2>
+        <p class="desc">
+          먼저 어떤 과목을 공부할지 선택하세요. 이후에
+          <b>내 수준(상/중/하)</b>과 <b>공부하려는 분야</b>를 고르면
+          사이트별 추천 강의가 표시됩니다.
+        </p>
+
+        <div class="subject-grid">
+          <button class="subject-btn" data-subject="kor">국어</button>
+          <button class="subject-btn" data-subject="eng">영어</button>
+          <button class="subject-btn" data-subject="math">수학</button>
+        </div>
+      </section>
+
+      <!-- 선택 화면: 수준 + 분야 -->
+      <section id="view-select" class="card">
+        <h2 id="select-title">과목 선택</h2>
+        <p id="select-desc" class="desc"></p>
+
+        <!-- 1. 수준 선택 -->
+        <div class="select-row">
+          <h3 class="sub-title">1. 내 현재 수준을 선택하세요</h3>
+          <div class="level-group">
+            <label class="level-option">
+              <input type="radio" name="level" value="상" />
+              상 (상위권)
+            </label>
+            <label class="level-option">
+              <input type="radio" name="level" value="중" />
+              중 (중위권)
+            </label>
+            <label class="level-option">
+              <input type="radio" name="level" value="하" />
+              하 (기초 다지기)
+            </label>
+          </div>
+        </div>
+
+        <!-- 2. 분야 선택 -->
+        <div class="select-row">
+          <h3 class="sub-title">2. 공부하려는 분야를 선택하세요</h3>
+          <p class="hint" id="category-hint"></p>
+          <div id="category-container" class="category-grid"></div>
+        </div>
+
+        <div class="btn-row">
+          <button type="button" id="btn-show-recommend" class="btn btn-primary">
+            사이트별 추천 보기
+          </button>
+          <button type="button" id="btn-select-home" class="btn btn-secondary">
+            처음으로
+          </button>
+        </div>
+      </section>
+
+      <!-- 결과 화면 -->
+      <section id="view-result" class="card">
+        <h2>추천 결과</h2>
+        <p id="level-text"></p>
+
+        <div>
+          <h3 class="teacher-section-title">EBS 추천 강의</h3>
+          <div id="ebs-list" class="teacher-list"></div>
+        </div>
+
+        <div>
+          <h3 class="teacher-section-title">메가스터디 추천 강의</h3>
+          <div id="mega-list" class="teacher-list"></div>
+        </div>
+
+        <div>
+          <h3 class="teacher-section-title">이투스 추천 강의</h3>
+          <div id="etoos-list" class="teacher-list"></div>
+        </div>
+
+        <div class="btn-row btn-row-bottom">
+          <button type="button" id="btn-result-retry" class="btn btn-primary">
+            다른 과목 / 다른 분야 선택하기
+          </button>
+          <button type="button" id="btn-result-home" class="btn btn-secondary">
+            처음으로
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Vite 기준: src/main.js 진입 -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
