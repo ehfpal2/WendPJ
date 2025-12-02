@@ -48,6 +48,7 @@ let selectedCategory = null;
 let quizSubject = null; // 테스트 중인 과목
 let quizQuestions = [];
 let lastTestLevel = null;
+let currentQuestionIndex = 0; // ✅ 지금 보고 있는 문제 번호
 
 // -----------------------------
 // 1. 과목별 카테고리 정의
@@ -69,10 +70,51 @@ const SUBJECT_CONFIG = {
 
 // -----------------------------
 // 2. 수능 스타일 테스트용 문항 데이터 (5지선다형)
-//    실제 기출 그대로가 아니라, 기출 난이도를 참고한 유사 문항
 // -----------------------------
 const TEST_QUESTIONS = {
   kor: [
+    // 국어 1번 – 학습 활동지 문항
+    {
+      text:
+        "다음은 윗글을 읽고 학생이 작성한 학습 활동지이다. 윗글을 바탕으로 할 때, 적절하지 않은 것은?",
+      passage:
+        "[아래의 핵심 개념에 대해 윗글에 제시된 학자들이 보일 수 있는 입장을 작성해 봅시다.]\n\n" +
+        "■ [핵심 개념 1] 자아에 대한 인식과 경험적 인식\n" +
+        "- 칸트: 자아를 인식하는 방식과 사물/세계의 대상을 경험적으로 인식하는 방식은 다르다.\n" +
+        "- 흄: 자아는 지각들의 다발이며, 자아에 대한 인식은 경험적 인식과 구별되지 않는다.\n\n" +
+        "■ [핵심 개념 2] 추상화 과정\n" +
+        "- 스트로슨: 경험으로부터의 추상화 과정을 거치지 않고도 ‘나’를 인식할 수 있다는 주장에 동의하지 않는다.\n" +
+        "- 칸트: ‘나’를 인식할 수 있다는 점에 동의한다(선험적 통각).\n\n" +
+        "■ [핵심 개념 3] 통시적 인격과 도덕적 존재\n" +
+        "- 로크: 의식의 연속성(기억)은 인격 동일성의 근거가 될 수 있다.\n" +
+        "- 기타 입장: 시간의 흐름 속 동일한 인격으로서의 ‘나’라는 개념을 수용한다.",
+      choices: [
+        "칸트의 입장에 따르면, 자아 인식과 세계 인식은 동일한 방식이므로 구별할 필요가 없다는 학생의 결론은 옳다.",
+        "스트로슨의 입장에 따르면, 경험을 거치지 않고도 ‘나’를 인식할 수 있다는 주장에 동의하기 어렵다.",
+        "칸트의 입장에 따르면, 선험적 통각에 근거하여 ‘나’를 인식할 수 있다는 점에 동의한다.",
+        "로크의 입장에 따르면, 기억의 연속성은 인격 동일성 논의의 근거가 될 수 있다.",
+        "통시적 동일성을 수용하는 입장에 따르면, 시간의 흐름 속 동일한 인격으로서의 ‘나’를 개념적으로 인정한다."
+      ],
+      answerIndex: 1, // TODO: 실제 정답으로 0~4 설정
+      difficulty: "hard"
+    },
+    // 국어 2번 – <보기> 반응 문항
+    {
+      text: "윗글을 바탕으로 <보기>를 이해한 반응으로 가장 적절한 것은?",
+      passage:
+        "<보기>\n" +
+        "갑: 두뇌에서 일어나는 의식을 스캔하여 프로그램으로 재현한다고 상상해 보자. 그런 경우, 본래의 자신과 재현된 의식은 동일한 인격이 아니다. 두뇌에서 일어나는 의식은 신체 전체의 작용에 연관된 것이기 때문이다. 즉, 뇌로만 재현된 의식은 인격일 수 없다. '생각하는 나'의 지속만으로는 인격의 동일성이 보장될 수 없고, 살아 있는 신체도 인격의 구성 요소에 포함되어야 한다.\n" +
+        "을: 그렇지 않아. 프로그램으로 재현된 의식은 본래의 자신과 동일한 인격이야. 비록 프로그램은 신체가 없지만 우리 두뇌와 프로그램이 수행하는 사고 기능에는 근본적인 차이가 없으므로, 인격의 동일성은 동일한 사고 기능의 동일성을 기준으로 판별해야 해.",
+      choices: [
+        "통제설에 의하면, 프로그램으로 재현된 의식만으로도 인격이 된다는 을의 입장은 옳다.",
+        "스트로슨에 의하면, 신체를 지니지 않은 존재에게 인격을 귀속할 수 없다는 을의 입장은 옳지 않다.",
+        "칸트에 의하면, ‘생각하는 나’의 지속만으로 인격 동일성이 보장되지 않는다는 갑의 입장은 옳지 않다.",
+        "가튼에 의하면, 인격 동일성은 자기 지식이 아니라 사고 기능의 동일성으로 판별해야 한다는 을의 입장은 옳지 않다.",
+        "통제설에 의하면, 인간과 다른 존재라도 동일한 사고 기능이 있다면 그 동일성을 기준으로 인격 동일성을 판단할 수 있다는 을의 입장은 옳다."
+      ],
+      answerIndex: 2, // TODO: 실제 정답으로 0~4 설정
+      difficulty: "hard"
+    },
     {
       text: "다음 중 문맥상 가장 어색한 문장은 무엇인가?",
       choices: [
@@ -92,7 +134,7 @@ const TEST_QUESTIONS = {
         "할 수있다",
         "할수 있다",
         "할 수 있다",
-        "할  수  있 다"
+        "할  수  있다"
       ],
       answerIndex: 3,
       difficulty: "easy"
@@ -121,33 +163,9 @@ const TEST_QUESTIONS = {
       ],
       answerIndex: 4,
       difficulty: "hard"
-    },
-    {
-      text:
-        "다음 글에서 밑줄 친 '그럼에도 불구하고'의 쓰임과 가장 유사한 것은?\n\n\"그는 여러 번 실패했다. 그럼에도 불구하고 다시 도전했다.\"",
-      choices: [
-        "비가 왔지만, 우리는 산에 올랐다.",
-        "비가 많이 왔으므로, 우산을 챙겼다.",
-        "비가 와서 소풍이 취소되었다.",
-        "비가 오니까 길이 미끄러웠다.",
-        "비가 오면 우산을 쓴다."
-      ],
-      answerIndex: 0,
-      difficulty: "hard"
-    },
-    {
-      text: "다음 중 화법 상황에서 '적극적 경청'에 해당하지 않는 것은?",
-      choices: [
-        "상대의 말을 들으면서 고개를 끄덕인다.",
-        "중간에 끊고 자신의 경험을 길게 이야기한다.",
-        "상대의 말을 정리해 다시 확인한다.",
-        "눈을 맞추고 적절한 질문을 던진다.",
-        "간단한 메모를 하며 내용을 기록한다."
-      ],
-      answerIndex: 1,
-      difficulty: "easy"
     }
   ],
+
   eng: [
     {
       text: "Choose the sentence that is grammatically correct.",
@@ -215,6 +233,7 @@ const TEST_QUESTIONS = {
       difficulty: "easy"
     }
   ],
+
   math: [
     {
       text: "다음 중 소수(prime number)는?",
@@ -232,7 +251,7 @@ const TEST_QUESTIONS = {
       text:
         "함수 f(x) = x² 에서 x가 2에서 3으로 증가할 때, 함수값 f(x)의 증가는?",
       choices: ["3", "4", "5", "7", "9"],
-      answerIndex: 2, // f(3)=9, f(2)=4 → 증가량 5
+      answerIndex: 2,
       difficulty: "mid"
     },
     {
@@ -381,7 +400,7 @@ function renderLectureList(container, lectures, platformLabel) {
   if (!lectures || lectures.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-text";
-    empty.textContent = `${platformLabel}에 해당 조건의 강의 데이터가 없습니다. (lecture_db.json을 보강해 주세요)`;
+    empty.textContent = `${platformLabel}에 해당 조건의 강의 데이터가 없습니다. `;
     container.appendChild(empty);
     return;
   }
@@ -464,6 +483,28 @@ function pickRandomQuestions(subject, count = 6) {
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
+// ✅ 한 문제씩만 보이도록 표시 상태를 갱신
+function updateQuestionVisibility() {
+  const questionEls = quizForm.querySelectorAll(".question");
+  questionEls.forEach((el, idx) => {
+    el.style.display = idx === currentQuestionIndex ? "block" : "none";
+  });
+
+  if (!quizSubject || quizQuestions.length === 0) return;
+
+  // 제목에 현재 진행도 표시
+  const cfg = SUBJECT_CONFIG[quizSubject];
+  const subjectName = cfg ? cfg.name : "";
+  quizTitle.textContent = `${subjectName} 수능 스타일 내 수준 테스트 (${currentQuestionIndex + 1}/${quizQuestions.length})`;
+
+  // 버튼 텍스트 변경: 마지막 문제일 때만 '채점하기'
+  if (currentQuestionIndex < quizQuestions.length - 1) {
+    btnSubmitTest.textContent = "다음 문제";
+  } else {
+    btnSubmitTest.textContent = "채점하기";
+  }
+}
+
 function renderQuiz(subject) {
   quizSubject = subject;
   quizQuestions = pickRandomQuestions(subject, 6);
@@ -471,28 +512,34 @@ function renderQuiz(subject) {
 
   const cfg = SUBJECT_CONFIG[subject];
   const subjectName = cfg ? cfg.name : "";
-
-  quizTitle.textContent = `${subjectName} 수능 스타일 내 수준 테스트 (총 ${quizQuestions.length}문항)`;
+  quizTitle.textContent = `${subjectName} 수능 스타일 내 수준 테스트`;
 
   quizQuestions.forEach((q, idx) => {
     const wrapper = document.createElement("div");
     wrapper.className = "question";
 
     const p = document.createElement("p");
-    p.textContent = `${idx + 1}. ${q.text}`;
+    p.textContent = `${idx + 1}. ${q.text || ""}`;
     wrapper.appendChild(p);
+
+    // 긴 지문/보기 영역
+    if (q.passage) {
+      const pre = document.createElement("pre");
+      pre.textContent = q.passage;
+      wrapper.appendChild(pre);
+    }
 
     const choicesDiv = document.createElement("div");
     choicesDiv.className = "choices";
 
-    q.choices.forEach((choiceText, cIdx) => {
+    (q.choices || []).forEach((choiceText, cIdx) => {
       const label = document.createElement("label");
       const input = document.createElement("input");
       input.type = "radio";
       input.name = `test-q${idx}`;
       input.value = String(cIdx);
 
-      const numLabel = `(${cIdx + 1}) `; // (1) (2) (3) ...
+      const numLabel = `(${cIdx + 1}) `;
 
       label.appendChild(input);
 
@@ -507,6 +554,8 @@ function renderQuiz(subject) {
     quizForm.appendChild(wrapper);
   });
 
+  currentQuestionIndex = 0;      // 첫 문제부터 시작
+  updateQuestionVisibility();    // ✅ 한 문제만 보이도록
   quizWrap.style.display = "block";
 }
 
@@ -521,6 +570,11 @@ function gradeTest() {
   let correctCount = 0;
 
   quizQuestions.forEach((q, idx) => {
+    // 정답이 설정되지 않은 문항은 채점에서 제외
+    if (q.answerIndex === null || typeof q.answerIndex === "undefined") {
+      return;
+    }
+
     const checked = quizForm.querySelector(
       `input[name="test-q${idx}"]:checked`
     );
@@ -537,7 +591,7 @@ function gradeTest() {
   });
 
   if (maxScore === 0) {
-    alert("문항이 로드되지 않았습니다. 다시 시도해 주세요.");
+    alert("채점 가능한 문항이 없습니다. answerIndex를 확인해 주세요.");
     return;
   }
 
@@ -554,7 +608,11 @@ function gradeTest() {
 
   testResultText.innerHTML = `
     <strong>${subjectName}</strong> 내 수준 테스트 결과<br/>
-    정답 개수: <strong>${correctCount} / ${quizQuestions.length}</strong><br/>
+    정답 개수(채점 대상 문항): <strong>${correctCount}</strong> / ${
+      quizQuestions.filter(
+        (q) => q.answerIndex !== null && typeof q.answerIndex !== "undefined"
+      ).length
+    }문항<br/>
     난이도 가중 점수 비율: ${(ratio * 100).toFixed(1)}%<br/>
     → 추천 수준: <span class="badge-level">${level}</span>
   `;
@@ -655,9 +713,20 @@ function bindEvents() {
     showView("home");
   });
 
-  // 테스트 채점
+  // ✅ 테스트: '다음 문제' / '채점하기' 동작 분기
   btnSubmitTest.addEventListener("click", () => {
-    gradeTest();
+    if (!quizSubject || quizQuestions.length === 0) {
+      alert("먼저 테스트할 과목을 선택해 주세요.");
+      return;
+    }
+
+    if (currentQuestionIndex < quizQuestions.length - 1) {
+      currentQuestionIndex += 1;
+      updateQuestionVisibility();
+    } else {
+      // 마지막 문제 → 채점
+      gradeTest();
+    }
   });
 
   // 테스트 화면 -> 홈
