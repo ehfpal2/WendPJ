@@ -48,7 +48,7 @@ let selectedCategory = null;
 let quizSubject = null; // 테스트 중인 과목
 let quizQuestions = [];
 let lastTestLevel = null;
-let currentQuestionIndex = 0; // ✅ 지금 보고 있는 문제 번호
+let currentQuestionIndex = 0; // 지금 보고 있는 문제 번호
 
 // -----------------------------
 // 1. 과목별 카테고리 정의
@@ -73,7 +73,7 @@ const SUBJECT_CONFIG = {
 // -----------------------------
 const TEST_QUESTIONS = {
   kor: [
-    // 국어 1번 – 학습 활동지 문항
+    // 국어 1번 – 학습 활동지 문항 (정답 2번)
     {
       text:
         "다음은 윗글을 읽고 학생이 작성한 학습 활동지이다. 윗글을 바탕으로 할 때, 적절하지 않은 것은?",
@@ -95,10 +95,10 @@ const TEST_QUESTIONS = {
         "로크의 입장에 따르면, 기억의 연속성은 인격 동일성 논의의 근거가 될 수 있다.",
         "통시적 동일성을 수용하는 입장에 따르면, 시간의 흐름 속 동일한 인격으로서의 ‘나’를 개념적으로 인정한다."
       ],
-      answerIndex: 1, // TODO: 실제 정답으로 0~4 설정
+      answerIndex: 1, // 정답: 2번
       difficulty: "hard"
     },
-    // 국어 2번 – <보기> 반응 문항
+    // 국어 2번 – <보기> 반응 문항 (정답 3번)
     {
       text: "윗글을 바탕으로 <보기>를 이해한 반응으로 가장 적절한 것은?",
       passage:
@@ -112,9 +112,10 @@ const TEST_QUESTIONS = {
         "가튼에 의하면, 인격 동일성은 자기 지식이 아니라 사고 기능의 동일성으로 판별해야 한다는 을의 입장은 옳지 않다.",
         "통제설에 의하면, 인간과 다른 존재라도 동일한 사고 기능이 있다면 그 동일성을 기준으로 인격 동일성을 판단할 수 있다는 을의 입장은 옳다."
       ],
-      answerIndex: 2, // TODO: 실제 정답으로 0~4 설정
+      answerIndex: 2, // 정답: 3번
       difficulty: "hard"
     },
+    // 이하 예시 국어 문항
     {
       text: "다음 중 문맥상 가장 어색한 문장은 무엇인가?",
       choices: [
@@ -235,6 +236,37 @@ const TEST_QUESTIONS = {
   ],
 
   math: [
+    // 수학 1번 – Σ(2a_k - k) 문제 (정답 5)
+    {
+      text:
+        "수열 {aₙ}에 대하여 ∑(k=1→4)(2aₖ - k) = 0일 때, ∑(k=1→4) aₖ의 값은?",
+      choices: ["1", "2", "3", "4", "5"],
+      answerIndex: 4, // ⑤ 5
+      difficulty: "mid"
+    },
+    // 수학 2번 – f'(1) 문제 (정답 8)
+    {
+      text: "함수 f(x) = (x+2)(2x² - x - 2)에 대하여 f′(1)의 값은?",
+      choices: ["6", "7", "8", "9", "10"],
+      answerIndex: 2, // ③ 8
+      difficulty: "mid"
+    },
+    // 수학 3번 – 경우의 수 (정답 64)
+    {
+      text:
+        "네 문자 a, b, c, d 중에서 중복을 허락하여 3개를 택해 일렬로 나열하는 경우의 수는?",
+      choices: ["56", "60", "64", "68", "72"],
+      answerIndex: 2, // ③ 64
+      difficulty: "easy"
+    },
+    // 수학 4번 – 극한 tan(6x)/(2x) (정답 3)
+    {
+      text: "lim(x→0) tan(6x) / (2x)의 값은?",
+      choices: ["1", "2", "3", "4", "5"],
+      answerIndex: 2, // ③ 3
+      difficulty: "easy"
+    },
+    // 이하 예시 수학 문항들
     {
       text: "다음 중 소수(prime number)는?",
       choices: ["9", "11", "21", "27", "33"],
@@ -251,7 +283,7 @@ const TEST_QUESTIONS = {
       text:
         "함수 f(x) = x² 에서 x가 2에서 3으로 증가할 때, 함수값 f(x)의 증가는?",
       choices: ["3", "4", "5", "7", "9"],
-      answerIndex: 2,
+      answerIndex: 2, // 증가량 5
       difficulty: "mid"
     },
     {
@@ -400,7 +432,7 @@ function renderLectureList(container, lectures, platformLabel) {
   if (!lectures || lectures.length === 0) {
     const empty = document.createElement("div");
     empty.className = "empty-text";
-    empty.textContent = `${platformLabel}에 해당 조건의 강의 데이터가 없습니다. `;
+    empty.textContent = `${platformLabel}에 해당 조건의 강의 데이터가 없습니다. (lecture_db.json을 보강해 주세요)`;
     container.appendChild(empty);
     return;
   }
@@ -483,7 +515,7 @@ function pickRandomQuestions(subject, count = 6) {
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
-// ✅ 한 문제씩만 보이도록 표시 상태를 갱신
+// 한 문제씩만 보이도록 표시 상태를 갱신
 function updateQuestionVisibility() {
   const questionEls = quizForm.querySelectorAll(".question");
   questionEls.forEach((el, idx) => {
@@ -492,12 +524,10 @@ function updateQuestionVisibility() {
 
   if (!quizSubject || quizQuestions.length === 0) return;
 
-  // 제목에 현재 진행도 표시
   const cfg = SUBJECT_CONFIG[quizSubject];
   const subjectName = cfg ? cfg.name : "";
   quizTitle.textContent = `${subjectName} 수능 스타일 내 수준 테스트 (${currentQuestionIndex + 1}/${quizQuestions.length})`;
 
-  // 버튼 텍스트 변경: 마지막 문제일 때만 '채점하기'
   if (currentQuestionIndex < quizQuestions.length - 1) {
     btnSubmitTest.textContent = "다음 문제";
   } else {
@@ -519,10 +549,9 @@ function renderQuiz(subject) {
     wrapper.className = "question";
 
     const p = document.createElement("p");
-    p.textContent = `${idx + 1}. ${q.text || ""}`;
+    p.innerHTML = `${idx + 1}. ${q.text || ""}`;
     wrapper.appendChild(p);
 
-    // 긴 지문/보기 영역
     if (q.passage) {
       const pre = document.createElement("pre");
       pre.textContent = q.passage;
@@ -554,8 +583,8 @@ function renderQuiz(subject) {
     quizForm.appendChild(wrapper);
   });
 
-  currentQuestionIndex = 0;      // 첫 문제부터 시작
-  updateQuestionVisibility();    // ✅ 한 문제만 보이도록
+  currentQuestionIndex = 0;
+  updateQuestionVisibility();
   quizWrap.style.display = "block";
 }
 
@@ -570,7 +599,6 @@ function gradeTest() {
   let correctCount = 0;
 
   quizQuestions.forEach((q, idx) => {
-    // 정답이 설정되지 않은 문항은 채점에서 제외
     if (q.answerIndex === null || typeof q.answerIndex === "undefined") {
       return;
     }
@@ -713,7 +741,7 @@ function bindEvents() {
     showView("home");
   });
 
-  // ✅ 테스트: '다음 문제' / '채점하기' 동작 분기
+  // 테스트: '다음 문제' / '채점하기' 분기
   btnSubmitTest.addEventListener("click", () => {
     if (!quizSubject || quizQuestions.length === 0) {
       alert("먼저 테스트할 과목을 선택해 주세요.");
@@ -724,7 +752,6 @@ function bindEvents() {
       currentQuestionIndex += 1;
       updateQuestionVisibility();
     } else {
-      // 마지막 문제 → 채점
       gradeTest();
     }
   });
@@ -741,7 +768,7 @@ function bindEvents() {
     showView("home");
   });
 
-  // 테스트 결과 -> 과목/분야 선택 화면으로 이동 + 수준 미리 체크
+  // 테스트 결과 -> 과목/분야 선택 화면 + 수준 자동 체크
   btnTestToSelect.addEventListener("click", () => {
     if (!quizSubject || !lastTestLevel) {
       showView("home");
